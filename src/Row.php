@@ -377,19 +377,21 @@ class Row extends Field
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
-        return array_merge(parent::jsonSerialize(), [
-            'sanitizedAttribute' => Str::plural(Str::kebab($this->attribute)),
-            'shouldShow' => $this->shouldBeExpanded(),
-            'headingClasses' => $this->headingClasses,
-            'itemWrapperClasses' => $this->itemWrapperClasses,
-            'deleteButtonClasses' => $this->deleteButtonClasses,
-            'addRowButtonClasses' => $this->addRowButtonClasses,
-            'rowWrapperClasses' => $this->rowWrapperClasses,
-            'sumWrapperClasses' => $this->sumWrapperClasses,
-            'sumFieldClasses' => $this->sumFieldClasses,
-            'fields' => $this->fields,
-        ]);
+        return with(app(NovaRequest::class), function ($request) {
+            return array_merge(parent::jsonSerialize(), [
+                'sanitizedAttribute' => Str::plural(Str::kebab($this->attribute)),
+                'shouldShow' => $this->shouldBeExpanded(),
+                'headingClasses' => $this->headingClasses,
+                'itemWrapperClasses' => $this->itemWrapperClasses,
+                'deleteButtonClasses' => $this->deleteButtonClasses,
+                'addRowButtonClasses' => $this->addRowButtonClasses,
+                'rowWrapperClasses' => $this->rowWrapperClasses,
+                'sumWrapperClasses' => $this->sumWrapperClasses,
+                'sumFieldClasses' => $this->sumFieldClasses,
+                'fields' => $this->fields,
+            ]);
+        });
     }
 }
